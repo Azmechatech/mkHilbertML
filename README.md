@@ -8,7 +8,7 @@ An ML library that combines Hilbert Curve(s) with the Classic ML algorithms like
 ![Result](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_result.PNG)
 
 ## Example 2
-![Source Image]https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Strip.PNG)
+![Source Image](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Strip.PNG)
 ![Result](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Strip_Result.PNG)
 
 ## Example 3
