@@ -756,7 +756,7 @@ public class HilbertCurvePatternDetect {
      * @param bitsToMatch
      * @return 
      */
-    public static List<BufferedImage> getFeaturesInImage(BufferedImage imageOne) {
+    public static List<BufferedImage> getFeaturesInImage(BufferedImage imageOne, int distinctClasses) {
         int bitsToMatch=63;
         BufferedImage colourWheelForRegionMAP=getColourWheel(1024);
         HilbertCurve cForpattern = HilbertCurve.bits(bitsToMatch).dimensions(2);
@@ -800,7 +800,7 @@ public class HilbertCurvePatternDetect {
             }
         }
 
-        kmeans.init(minX, maxX, minY, maxY,5);//5 Features for now
+        kmeans.init(minX, maxX, minY, maxY,distinctClasses);//5 Features for now
         kmeans.calculate();
 
         for (Cluster cluster : kmeans.clusters) {

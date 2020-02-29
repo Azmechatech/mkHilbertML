@@ -8,7 +8,11 @@ package com.truegeometry.mkhilbertml;
 import boofcv.alg.feature.detect.edge.EdgeContour;
 import boofcv.alg.feature.detect.edge.EdgeSegment;
 import georegression.struct.point.Point2D_I32;
+import java.awt.Color;
+import java.awt.GradientPaint;
 import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.GraphicsEnvironment;
 import java.awt.GridLayout;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,6 +26,7 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JList;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 //import net.mky.tools.FitPolygon;
 
@@ -117,7 +122,9 @@ public class HilberCurvePatternDetectTests {
               //  img = ImageIO.read(fileOpener.getSelectedFile());
 
                 HilbertCurvePatternDetect.displayImage(img, "getClusterPointsInteractiveTest >> baseImage");
-                List< BufferedImage> result = HilbertCurvePatternDetect.getFeaturesInImage(img);
+                String test1= JOptionPane.showInputDialog("NumberOfFeatures(Intger values only)");
+                int numberOfFeaures=Integer.parseInt(test1);
+                List< BufferedImage> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
                 List<EdgeContour> edges= FitPolygon.getCannyEdgesXY(img);
                 
                 //PREPARE FOR RESULT DISPLAY
@@ -125,6 +132,8 @@ public class HilberCurvePatternDetectTests {
                         500 * result.size() / 2, 500 * result.size() / 2, //work these out
                         BufferedImage.TYPE_INT_RGB);
                 Graphics g = BIG_IMAGE.getGraphics();
+                g.drawImage(createGradientImage(BIG_IMAGE.getWidth(), BIG_IMAGE.getHeight(), Color.GRAY,Color.LIGHT_GRAY),10,10,null);
+
 
                 int x = 0, y = 0;
                 for (BufferedImage resultImage : result) {
@@ -134,22 +143,26 @@ public class HilberCurvePatternDetectTests {
                     for( EdgeContour edgeContour:edges){
                         for(EdgeSegment edgeSegment:edgeContour.segments)
                             for(Point2D_I32 p2d: edgeSegment.points)
-                                gr.drawOval(p2d.x, p2d.y,2, 2);
+                            {    
+                            //    gr.drawOval(p2d.x, p2d.y,1, 1);
+                            }
                     }
 
-                    g.drawImage(HilbertCurvePatternDetect.resizeImage(resultImage, 500, 500), x, y, null);
-                    x += 500;
-                    if (x > resultImage.getWidth()) {
+                    if (x+310 > BIG_IMAGE.getWidth()) {
                         x = 0;
-                        y += 500;
+                        y += 300;
                     }
+                    g.drawImage(HilbertCurvePatternDetect.resizeImage(resultImage, 300, 300), x, y, null);
+                    //Next image location
+                    x += 310;
+                    
                     
                     
 
                 //    HilbertCurvePatternDetect.displayImage(resultImage, "getClusterPointsInteractiveTest");
                 }
 
-                 g.drawImage(HilbertCurvePatternDetect.resizeImage(img, 500, 500), x, y, null);
+                 g.drawImage(HilbertCurvePatternDetect.resizeImage(img, 300, 300), x, y, null);
                  
                 HilbertCurvePatternDetect.displayImage(BIG_IMAGE, "getClusterPointsInteractiveTest");
            
@@ -161,4 +174,23 @@ public class HilberCurvePatternDetectTests {
         HilbertCurvePatternDetect.displayImage(HilbertCurvePatternDetect.getColourWheel(63), "getColourWheelTest");
     }
 
+      public static BufferedImage createGradientImage(int width, int height, Color gradient1,
+      Color gradient2) {
+
+    BufferedImage gradientImage = createCompatibleImage(width, height);
+    GradientPaint gradient = new GradientPaint(0, 0, gradient1, 0, height, gradient2, false);
+    Graphics2D g2 = (Graphics2D) gradientImage.getGraphics();
+    g2.setPaint(gradient);
+    g2.fillRect(0, 0, width, height);
+    g2.dispose();
+
+    return gradientImage;
+  }
+
+  private static BufferedImage createCompatibleImage(int width, int height) {
+
+    return GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice()
+        .getDefaultConfiguration().createCompatibleImage(width, height);
+
+  }
 }
