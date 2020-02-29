@@ -20,3 +20,16 @@ An ML library that combines Hilbert Curve(s) with the Classic ML algorithms like
 ![Source Image](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Box.PNG)
 ### Result of object clustering  mkHilbertML 
 ![Result](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Box_Result.PNG)
+
+
+## Example 4
+### Source Image
+![Source Image](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Hand.PNG)
+### Result of object clustering  mkHilbertML 
+![Result](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Hand_Result.PNG)
+
+## Example 5
+### Source Image
+![Source Image](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Zebra.PNG)
+### Result of object clustering  mkHilbertML 
+![Result](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BW_Zebra_Result.PNG)
