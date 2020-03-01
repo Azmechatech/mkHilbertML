@@ -1,5 +1,5 @@
 # mkHilbertML
-An ML library that combines Hilbert Curve(s) with the Classic ML algorithms like k-means clustering to match up deep learning 
+An ML library that combines Hilbert Curve(s) with the Classic ML algorithms like k-means clustering to match up deep learning.
 Some information about Hilbert Curve can be obtained from Wikipedia link https://en.wikipedia.org/wiki/Hilbert_curve
 ```
 Both the true Hilbert curve and its discrete approximations are useful because they give a mapping between 1D and 2D space that preserves locality fairly well.[4] This means that two data points which are close to each other in one-dimensional space are also close to each other after folding. The converse can't always be true.
