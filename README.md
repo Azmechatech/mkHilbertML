@@ -7,6 +7,14 @@ An ML library that combines Hilbert Curve(s) with the Classic ML algorithms like
 ### Result of object clustering using  mkHilbertML | It has done what we need it to
 ![Result](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_BrightComet_Result.PNG)
 
+Following is the simple code to get started:
+```java
+BufferedImage img = ImageIO.read(new File("Path to image file"));
+int numberOfFeaures= 3 ;// Given 3 for comet, you can vary it as needed.
+List< BufferedImage> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
+//Display result
+HilbertCurvePatternDetect.resizeImage(resultImage, 300, 300);
+```
 ## Example : Detect Comet :)
 ### Source Image
 ![Source Image](https://github.com/Azmechatech/mkHilbertML/blob/master/images/Example_Comet1970.PNG)
