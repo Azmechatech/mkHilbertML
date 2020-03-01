@@ -144,7 +144,7 @@ public class HilberCurvePatternDetectTests {
                         for(EdgeSegment edgeSegment:edgeContour.segments)
                             for(Point2D_I32 p2d: edgeSegment.points)
                             {    
-                            //    gr.drawOval(p2d.x, p2d.y,1, 1);
+                               gr.drawOval(p2d.x, p2d.y,1, 1);
                             }
                     }
 
