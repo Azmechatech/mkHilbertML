@@ -751,16 +751,19 @@ public class HilbertCurvePatternDetect {
     }
     
     /*******************Feature Extraction From Image*******************
-     * 
+     * Extract images based on clustering.
+     * 1. Convert to Hilbert curve
+     * 2. Cluster
+     * 3. Re-construct image
      * @param imageOne
      * @param bitsToMatch
      * @return 
      */
-    public static List<BufferedImage> getFeaturesInImage(BufferedImage imageOne, int distinctClasses) {
+    public static List<HilbertCurveImageResult> getFeaturesInImage(BufferedImage imageOne, int distinctClasses) {
         int bitsToMatch=63;
         BufferedImage colourWheelForRegionMAP=getColourWheel(1024);
         HilbertCurve cForpattern = HilbertCurve.bits(bitsToMatch).dimensions(2);
-        List<BufferedImage> result = new ArrayList<>();
+        List<HilbertCurveImageResult> result = new ArrayList<>();
         KMeans kmeans = new KMeans();
         TrackingParameters trackingParameters = new TrackingParameters(); //use later
         int pointsToTravese = bitsToMatch * bitsToMatch;
@@ -804,23 +807,38 @@ public class HilbertCurvePatternDetect {
         kmeans.calculate();
 
         for (Cluster cluster : kmeans.clusters) {
-            BufferedImage bimg = new BufferedImage(imageOne.getWidth(), imageOne.getHeight(), imageOne.getType());
+            BufferedImage bimg = new BufferedImage(imageOne.getWidth(), imageOne.getHeight(), BufferedImage.TYPE_INT_ARGB);
+            Graphics2D graphics = bimg.createGraphics();
+            graphics.setBackground(new Color(0x00FFFFFF, true));
             minX = Integer.MAX_VALUE;
             maxX = Integer.MIN_VALUE;
             minY = Integer.MAX_VALUE;
             maxY = Integer.MIN_VALUE;
+            
+            HilbertCurveImageResult hcir=new HilbertCurveImageResult();
 
+            int objectsInACluster=0;
+            BigInteger tempHBCNumber=BigInteger.ZERO;
             for (Point point : cluster.points) {
 
                 long[] pointP = cForpattern.point((int) point.getX());
                 pointP[0] = (long) (pointP[0] * imageOne.getWidth() / Math.sqrt(pointsToTravese));
                 pointP[1] = (long) (pointP[1] * imageOne.getHeight() / Math.sqrt(pointsToTravese));
 
+                //Find min max bounds
                 minX = pointP[0] < minX ? pointP[0] : minX;
                 maxX = pointP[0] > maxX ? pointP[0] : maxX;
 
                 minY = pointP[1] < minY ? pointP[1] : minY;
                 maxY = pointP[1] > maxY ? pointP[1] : maxY;
+                
+                //Count objects in cluster
+                if(tempHBCNumber==BigInteger.ZERO){
+                    tempHBCNumber=cForpattern.index(pointP);
+                }else if(tempHBCNumber.add(BigInteger.ONE).longValue()<=cForpattern.index(pointP).longValue()+10 &&tempHBCNumber.add(BigInteger.ONE).longValue()>=cForpattern.index(pointP).longValue()-10) {
+                    objectsInACluster++;
+                    tempHBCNumber=BigInteger.ZERO;//reset the value to start counter
+                }
 
                 //get pixel value
                 try {
@@ -834,9 +852,16 @@ public class HilbertCurvePatternDetect {
                     //ex.printStackTrace();
                 }
             }
+            
+            System.out.println("objectsInACluster="+objectsInACluster);
 
-            // BufferedImage bimg=new BufferedImage((int)(maxX-minX), (int)(maxY-minY), imageOne.getType());
-            result.add(bimg);
+            BufferedImage regiionImage=new BufferedImage((int)(maxX-minX), (int)(maxY-minY), imageOne.getType());
+            
+            //result.add(bimg);
+            hcir.setFullImage(bimg);
+            hcir.setxMin(minX);hcir.setyMin(minY);hcir.setxMax(maxX);hcir.setyMax(maxY);
+            hcir.setRegionWidth((int)(maxX-minX));hcir.setRegionHeight((int)(maxY-minY));
+            result.add(hcir);
         }
 
         return result;

@@ -116,15 +116,12 @@ public class HilberCurvePatternDetectTests {
     }
 
     public static void getClusterPointsInteractiveTest( BufferedImage img) {
-
-        
-          
               //  img = ImageIO.read(fileOpener.getSelectedFile());
 
                 HilbertCurvePatternDetect.displayImage(img, "getClusterPointsInteractiveTest >> baseImage");
                 String test1= JOptionPane.showInputDialog("NumberOfFeatures(Intger values only)");
                 int numberOfFeaures=Integer.parseInt(test1);
-                List< BufferedImage> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
+                List< HilbertCurveImageResult> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
                 List<EdgeContour> edges= FitPolygon.getCannyEdgesXY(img);
                 
                 //PREPARE FOR RESULT DISPLAY
@@ -136,10 +133,12 @@ public class HilberCurvePatternDetectTests {
 
 
                 int x = 0, y = 0;
-                for (BufferedImage resultImage : result) {
+                for (HilbertCurveImageResult resultImage : result) {
+                    //Try to get equation of region
+                     double[] imgEquation = HilbertCurvePatternDetect.getImageEquation(resultImage.getFullImage(), 63);
                     
                     //Draw edges
-                    Graphics gr = resultImage.getGraphics();
+                    Graphics gr = resultImage.getFullImage().getGraphics();
                     for( EdgeContour edgeContour:edges){
                         for(EdgeSegment edgeSegment:edgeContour.segments)
                             for(Point2D_I32 p2d: edgeSegment.points)
@@ -152,7 +151,7 @@ public class HilberCurvePatternDetectTests {
                         x = 0;
                         y += 300;
                     }
-                    g.drawImage(HilbertCurvePatternDetect.resizeImage(resultImage, 300, 300), x, y, null);
+                    g.drawImage(HilbertCurvePatternDetect.resizeImage(resultImage.getRegionImage(), 300, 300), x, y, null);
                     //Next image location
                     x += 310;
                     
