@@ -15,7 +15,7 @@ import java.awt.image.BufferedImage;
  */
 public class HilbertCurveImageResult {
     
-    BufferedImage fullImage,regionImage;
+    BufferedImage fullImage;
     public static Color bgColor=new Color(0x00FFFFFF, true);
 
     long xMin,yMin,xMax,yMax;
