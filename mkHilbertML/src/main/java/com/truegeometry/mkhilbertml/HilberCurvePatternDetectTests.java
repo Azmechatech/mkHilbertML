@@ -7,8 +7,10 @@ package com.truegeometry.mkhilbertml;
 
 import boofcv.alg.feature.detect.edge.EdgeContour;
 import boofcv.alg.feature.detect.edge.EdgeSegment;
+import com.truegeometry.mkhilbertml.functions.Counter;
 import georegression.struct.point.Point2D_I32;
 import java.awt.Color;
+import java.awt.Font;
 import java.awt.GradientPaint;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -121,7 +123,8 @@ public class HilberCurvePatternDetectTests {
                 HilbertCurvePatternDetect.displayImage(img, "getClusterPointsInteractiveTest >> baseImage");
                 String test1= JOptionPane.showInputDialog("NumberOfFeatures(Intger values only)");
                 int numberOfFeaures=Integer.parseInt(test1);
-                List< HilbertCurveImageResult> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
+               // List< HilbertCurveImageResult> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
+                List< HilbertCurveImageResult> result = Counter.populateObjectCounts(img, numberOfFeaures);
                 List<EdgeContour> edges= FitPolygon.getCannyEdgesXY(img);
                 
                 //PREPARE FOR RESULT DISPLAY
@@ -152,6 +155,9 @@ public class HilberCurvePatternDetectTests {
                         y += 300;
                     }
                     g.drawImage(HilbertCurvePatternDetect.resizeImage(resultImage.getRegionImage(), 300, 300), x, y, null);
+                    g.setColor(Color.GREEN);
+                    g.setFont(new Font("", 20, 20));
+                    g.drawString("Total Objects in Cluster"+resultImage.getFeatureCount(), x+20, y+20);
                     //Next image location
                     x += 310;
                     

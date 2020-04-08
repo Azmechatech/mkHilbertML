@@ -17,11 +17,13 @@ public class HilbertCurveImageResult {
     
     BufferedImage fullImage;
     public static Color bgColor=new Color(0x00FFFFFF, true);
-
+    long featureCount=0;
+    
     long xMin,yMin,xMax,yMax;
     int regionWidth,regionHeight;
     double error;
     long errorAbsolute;
+    Cluster cluster;
 
     public BufferedImage getFullImage() {
         return fullImage;
@@ -100,6 +102,30 @@ public class HilbertCurveImageResult {
 
     public void setErrorAbsolute(long errorAbsolute) {
         this.errorAbsolute = errorAbsolute;
+    }
+
+    public static Color getBgColor() {
+        return bgColor;
+    }
+
+    public static void setBgColor(Color bgColor) {
+        HilbertCurveImageResult.bgColor = bgColor;
+    }
+
+    public long getFeatureCount() {
+        return featureCount;
+    }
+
+    public void setFeatureCount(long featureCount) {
+        this.featureCount = featureCount;
+    }
+
+    public Cluster getCluster() {
+        return cluster;
+    }
+
+    public void setCluster(Cluster cluster) {
+        this.cluster = cluster;
     }
     
     

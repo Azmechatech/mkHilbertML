@@ -861,6 +861,7 @@ public class HilbertCurvePatternDetect {
             hcir.setFullImage(bimg);
             hcir.setxMin(minX);hcir.setyMin(minY);hcir.setxMax(maxX);hcir.setyMax(maxY);
             hcir.setRegionWidth((int)(maxX-minX));hcir.setRegionHeight((int)(maxY-minY));
+            hcir.setCluster(cluster);
             result.add(hcir);
         }
 
