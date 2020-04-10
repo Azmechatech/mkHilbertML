@@ -24,6 +24,8 @@ public class HilbertCurveImageResult {
     double error;
     long errorAbsolute;
     Cluster cluster;
+    Statistic statisticOfColor= new Statistic();
+    Statistic statisticOfShape= new Statistic();
 
     public BufferedImage getFullImage() {
         return fullImage;
@@ -127,14 +129,24 @@ public class HilbertCurveImageResult {
     public void setCluster(Cluster cluster) {
         this.cluster = cluster;
     }
+
+    public Statistic getStatisticOfColor() {
+        return statisticOfColor;
+    }
+
+    public Statistic getStatisticOfShape() {
+        return statisticOfShape;
+    }
     
     
     private BufferedImage cropImage(BufferedImage src) {
-        Rectangle rect=new Rectangle((int) xMin, (int) yMin, (int)(xMax-xMin), (int)(yMax-yMin));
-        
-      BufferedImage dest = src.getSubimage(rect.x, rect.y, rect.width, rect.height);
-      return dest; 
-   }
+        Rectangle rect = new Rectangle((int) xMin, (int) yMin, (int) (xMax - xMin), (int) (yMax - yMin));
+
+        try{
+        BufferedImage dest = src.getSubimage(rect.x, rect.y, rect.width, rect.height);
+        return dest;
+        }catch (Exception ex){return fullImage;}
+    }
     
     
 }

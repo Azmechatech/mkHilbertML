@@ -5,10 +5,12 @@
  */
 package com.truegeometry.mkhilbertml.solver;
 
+import com.truegeometry.mkhilbertml.HilbertCurveImageResult;
 import com.truegeometry.mkhilbertml.HilbertCurvePatternDetect;
 import com.truegeometry.mkhilbertml.Statistic;
 import com.truegeometry.mkhilbertml.functions.ImageOperationInterface;
 import java.awt.image.BufferedImage;
+import java.util.List;
 
 /**
  *
@@ -28,7 +30,11 @@ public class BasicSolver {
         }
         return ioi.getCurrentParameters();
     }
-
+    
+   
+        
 }
+
+
     
 

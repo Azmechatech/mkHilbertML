@@ -30,6 +30,8 @@ import javax.swing.JOptionPane;
 import org.apache.commons.math3.analysis.polynomials.PolynomialFunction;
 import org.apache.commons.math3.fitting.PolynomialCurveFitter;
 import org.apache.commons.math3.fitting.WeightedObservedPoints;
+import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
+import org.apache.commons.math3.stat.descriptive.moment.StandardDeviation;
 import org.davidmoten.hilbert.HilbertCurve;
 import org.davidmoten.hilbert.HilbertCurveRenderer;
 import org.davidmoten.hilbert.HilbertCurveRenderer.Option;
@@ -716,6 +718,7 @@ public class HilbertCurvePatternDetect {
         return result;
     }
     
+    
     /***********************Find Exactly matching pixel***************
      * 
      * @param imageOne
@@ -750,17 +753,22 @@ public class HilbertCurvePatternDetect {
         return -1;
     }
     
-    /*******************Feature Extraction From Image*******************
-     * Extract images based on clustering.
-     * 1. Convert to Hilbert curve
-     * 2. Cluster
-     * 3. Re-construct image
+    /**
+     * *****************Feature Extraction From Image******************* Extract
+     * images based on clustering.1.Convert to Hilbert curve 2. Cluster 3.
+     * Re-construct image
+     *
      * @param imageOne
-     * @param bitsToMatch
-     * @return 
+     * @param distinctClasses
+     * @return
      */
     public static List<HilbertCurveImageResult> getFeaturesInImage(BufferedImage imageOne, int distinctClasses) {
         int bitsToMatch=63;
+        return getFeaturesInImage( imageOne,  distinctClasses, bitsToMatch);
+    }
+
+     public static List<HilbertCurveImageResult> getFeaturesInImage(BufferedImage imageOne, int distinctClasses,int bitsToMatch) {
+       
         BufferedImage colourWheelForRegionMAP=getColourWheel(1024);
         HilbertCurve cForpattern = HilbertCurve.bits(bitsToMatch).dimensions(2);
         List<HilbertCurveImageResult> result = new ArrayList<>();
@@ -816,6 +824,7 @@ public class HilbertCurvePatternDetect {
             maxY = Integer.MIN_VALUE;
             
             HilbertCurveImageResult hcir=new HilbertCurveImageResult();
+            DescriptiveStatistics stats = new DescriptiveStatistics();
 
             int objectsInACluster=0;
             BigInteger tempHBCNumber=BigInteger.ZERO;
@@ -845,23 +854,29 @@ public class HilbertCurvePatternDetect {
                     //System.out.println(pointT[0]+" /"+targetScaled.getWidth()+" "+pointT[1]+" /"+targetScaled.getHeight());
                     int p = (int) point.getY();
                     
-                    for(int x=-xUnitPerHelbertPoint/2;x<xUnitPerHelbertPoint/2;x++)
-                        for(int y=-yUnitPerHelbertPoint/2;y<yUnitPerHelbertPoint/2;y++)
+                    for(int x=-xUnitPerHelbertPoint/2;x<=xUnitPerHelbertPoint/2;x++)
+                        for(int y=-yUnitPerHelbertPoint/2;y<=yUnitPerHelbertPoint/2;y++)
+                        {  
                             bimg.setRGB(x+(int) pointP[0], y+(int) pointP[1],imageOne.getRGB(x+(int) pointP[0], y+(int) pointP[1]));
+                            stats.addValue(imageOne.getRGB(x+(int) pointP[0], y+(int) pointP[1]));
+                        }
                 } catch (Exception ex) {
                     //ex.printStackTrace();
                 }
             }
             
-            System.out.println("objectsInACluster="+objectsInACluster);
+            //System.out.println("objectsInACluster="+objectsInACluster);
 
-            BufferedImage regiionImage=new BufferedImage((int)(maxX-minX), (int)(maxY-minY), imageOne.getType());
+//            BufferedImage regiionImage=new BufferedImage((int)(maxX-minX), (int)(maxY-minY), imageOne.getType());
             
             //result.add(bimg);
             hcir.setFullImage(bimg);
             hcir.setxMin(minX);hcir.setyMin(minY);hcir.setxMax(maxX);hcir.setyMax(maxY);
             hcir.setRegionWidth((int)(maxX-minX));hcir.setRegionHeight((int)(maxY-minY));
             hcir.setCluster(cluster);
+            hcir.getStatisticOfColor().setStandardDeviation(stats.getStandardDeviation());
+            hcir.getStatisticOfColor().setMean(stats.getMean());
+
             result.add(hcir);
         }
 

@@ -124,8 +124,10 @@ public class HilberCurvePatternDetectTests {
                 String test1= JOptionPane.showInputDialog("NumberOfFeatures(Intger values only)");
                 int numberOfFeaures=Integer.parseInt(test1);
                // List< HilbertCurveImageResult> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
-                List< HilbertCurveImageResult> result = Counter.populateObjectCounts(img, numberOfFeaures);
-                List<EdgeContour> edges= FitPolygon.getCannyEdgesXY(img);
+              //  List< HilbertCurveImageResult> result = Counter.populateObjectCounts(img, numberOfFeaures);
+                List< HilbertCurveImageResult> result = Counter.getPossibleFeatures(img, 1);
+                
+                // List<EdgeContour> edges= FitPolygon.getCannyEdgesXY(img);
                 
                 //PREPARE FOR RESULT DISPLAY
                 BufferedImage BIG_IMAGE = new BufferedImage(
@@ -139,7 +141,8 @@ public class HilberCurvePatternDetectTests {
                 for (HilbertCurveImageResult resultImage : result) {
                     //Try to get equation of region
                      double[] imgEquation = HilbertCurvePatternDetect.getImageEquation(resultImage.getFullImage(), 63);
-                    
+                     List<EdgeContour> edges= FitPolygon.getCannyEdgesXY(resultImage.getRegionImage());
+                
                     //Draw edges
                     Graphics gr = resultImage.getFullImage().getGraphics();
                     for( EdgeContour edgeContour:edges){
