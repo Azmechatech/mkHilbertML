@@ -5,6 +5,8 @@
  */
 package com.truegeometry.mkhilbertml;
 
+import com.truegeometry.mkhilbertml.pojo.Statistic;
+import com.truegeometry.mkhilbertml.pojo.HilbertCurveImageResult;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.truegeometry.mkhilbertml;
+package com.truegeometry.mkhilbertml.pojo;
 
 import org.json.JSONObject;
 

@@ -66,7 +66,7 @@ public class Point {
     	return new Point(x,y);
     }
     
-    protected static List createRandomPoints(int min, int max, int number) {
+    public static List createRandomPoints(int min, int max, int number) {
     	List points = new ArrayList(number);
     	for(int i = 0; i < number; i++) {
     		points.add(createRandomPoint(min,max));

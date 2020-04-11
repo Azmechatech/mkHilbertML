@@ -5,6 +5,7 @@
  */
 package com.truegeometry.mkhilbertml;
 
+import com.truegeometry.mkhilbertml.pojo.HilbertCurveImageResult;
 import boofcv.alg.feature.detect.edge.EdgeContour;
 import boofcv.alg.feature.detect.edge.EdgeSegment;
 import com.truegeometry.mkhilbertml.functions.Counter;
@@ -126,7 +127,7 @@ public class HilberCurvePatternDetectTests {
                // List< HilbertCurveImageResult> result = HilbertCurvePatternDetect.getFeaturesInImage(img, numberOfFeaures);
               //  List< HilbertCurveImageResult> result = Counter.populateObjectCounts(img, numberOfFeaures);
                 List< HilbertCurveImageResult> result = Counter.getPossibleFeatures(img, 1);
-                
+               // List< HilbertCurveImageResult> result = Counter.getPossibleFeatures(img, 1,2);
                 // List<EdgeContour> edges= FitPolygon.getCannyEdgesXY(img);
                 
                 //PREPARE FOR RESULT DISPLAY

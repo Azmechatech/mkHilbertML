@@ -6,7 +6,7 @@
 package com.truegeometry.mkhilbertml.functions;
 
 import com.truegeometry.mkhilbertml.HilbertCurvePatternDetect;
-import com.truegeometry.mkhilbertml.Statistic;
+import com.truegeometry.mkhilbertml.pojo.Statistic;
 import com.truegeometry.mkhilbertml.solver.BasicSolver;
 import java.awt.image.BufferedImage;
 import org.davidmoten.hilbert.HilbertCurve;

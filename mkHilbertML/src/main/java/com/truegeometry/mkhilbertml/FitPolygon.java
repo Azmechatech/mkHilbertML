@@ -5,6 +5,7 @@
  */
 package com.truegeometry.mkhilbertml;
 
+import com.truegeometry.mkhilbertml.pojo.Statistic;
 import boofcv.alg.feature.detect.edge.CannyEdge;
 import boofcv.alg.feature.detect.edge.EdgeContour;
 import boofcv.alg.feature.detect.edge.EdgeSegment;

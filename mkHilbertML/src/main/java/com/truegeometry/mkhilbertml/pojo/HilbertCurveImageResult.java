@@ -3,8 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.truegeometry.mkhilbertml;
+package com.truegeometry.mkhilbertml.pojo;
 
+import com.truegeometry.mkhilbertml.Cluster;
 import java.awt.Color;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
