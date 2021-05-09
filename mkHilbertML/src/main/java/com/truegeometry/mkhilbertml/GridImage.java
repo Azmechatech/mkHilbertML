@@ -94,6 +94,9 @@ public class GridImage implements Runnable  {
         int key=-1;
         for (int y = 0; y < bi.getHeight(); y++) {
             DescriptiveStatistics stats = new DescriptiveStatistics();
+            DescriptiveStatistics statsr = new DescriptiveStatistics();
+            DescriptiveStatistics statsg = new DescriptiveStatistics();
+            DescriptiveStatistics statsb = new DescriptiveStatistics();
             for (int x = 0; x < bi.getWidth(); x++) {
 
                 int c = bi.getRGB(x, y);
@@ -102,12 +105,20 @@ public class GridImage implements Runnable  {
                 int blue = c & 0x000000ff;
 
                 stats.addValue(c);
+                statsr.addValue(red);
+                statsb.addValue(green);
+                statsg.addValue(blue);
             }
 
             double std = stats.getStandardDeviation();
-
-            if (std == 0) {
-
+            
+            double stdr = statsr.getStandardDeviation();
+            double stdb = statsb.getStandardDeviation();
+            double stdg = statsg.getStandardDeviation();
+            
+          //  System.out.println("std>>"+std+"\tstdr>>"+stdr+"\tstdg>>"+stdg+"\tstd>>"+stdb);
+           // if (std == 0) { //Old
+                if (stdr <=5 && stdg <=5 && stdb <=5) {//New criterion
                 if (sepratorON != true) {//Entry 
                     System.out.println("std is zero! for row " + y);
                     if(key!=-1)result.put(key, y);
