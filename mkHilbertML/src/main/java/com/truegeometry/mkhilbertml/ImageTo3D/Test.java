@@ -13,15 +13,17 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-
 import static org.bytedeco.opencv.global.opencv_core.cvFlip;
-import static org.bytedeco.opencv.helper.opencv_imgcodecs.cvSaveImage;
+
+//import static org.bytedeco.opencv.global.opencv_core.cvFlip;
+//import static org.bytedeco.opencv.helper.opencv_imgcodecs.cvSaveImage;
 import org.bytedeco.opencv.opencv_core.Mat;
 import org.bytedeco.opencv.opencv_core.MatVector;
 import org.bytedeco.opencv.opencv_stitching.Stitcher;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.imread;
 import static org.bytedeco.opencv.global.opencv_imgcodecs.imwrite;
 import static org.bytedeco.opencv.global.opencv_stitching.createStitcher;
+import static org.bytedeco.opencv.helper.opencv_imgcodecs.cvSaveImage;
 import org.bytedeco.opencv.opencv_core.MatVector;
 import org.bytedeco.opencv.opencv_stitching.Stitcher;
 
@@ -92,8 +94,8 @@ public class Test implements Runnable {
                 canvas2.showImage(converter.convert(img2));
                 
 
-                  canvas.showImage(Java2DFrameUtils.toFrame(FitPolygon.getCannyBinary(Java2DFrameUtils.toBufferedImage(img1))));
-                  canvas2.showImage(Java2DFrameUtils.toFrame(FitPolygon.getCannyBinary(Java2DFrameUtils.toBufferedImage(img2))));
+                  canvas.showImage(Java2DFrameUtils.toFrame(FitPolygon.getCannyBinary(Java2DFrameUtils.toBufferedImage(img1), 0.1F, 0.3F)));
+                  canvas2.showImage(Java2DFrameUtils.toFrame(FitPolygon.getCannyBinary(Java2DFrameUtils.toBufferedImage(img2), 0.1F, 0.3F)));
   
 
                 //

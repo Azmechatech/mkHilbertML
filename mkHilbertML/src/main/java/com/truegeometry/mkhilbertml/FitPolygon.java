@@ -184,7 +184,7 @@ public class FitPolygon {
      * @param image
      * @return 
      */
-    public static BufferedImage getCannyBinary(BufferedImage image) {
+    public static BufferedImage getCannyBinary(BufferedImage image, float th1, float th2) {
         ImageFloat32 input = ConvertBufferedImage.convertFromSingle(image, null, ImageFloat32.class);
         BufferedImage displayImage = new BufferedImage(input.width, input.height, BufferedImage.TYPE_INT_RGB);
         ImageUInt8 binary = new ImageUInt8(input.width, input.height);
@@ -195,7 +195,7 @@ public class FitPolygon {
         CannyEdge<ImageFloat32, ImageFloat32> canny
                 = FactoryEdgeDetectors.canny(2, false, true, ImageFloat32.class, ImageFloat32.class);
 
-        canny.process(input, 0.1f, 0.3f, binary);
+        canny.process(input, th1, th2, binary);
 
         // Only external contours are relevant
         List<Contour> contours = BinaryImageOps.contour(binary, ConnectRule.EIGHT, label);
@@ -270,17 +270,42 @@ public class FitPolygon {
     }
     
     /**
-     * 
-     * @param image
+     * Bounding rectangle
+     * @param imageChunks
      * @return 
      */
-    public static List<ImagePOJO> getCannyImages(BufferedImage image) {
+    public static int[][] getMaxrect(List<ImagePOJO> imageChunks) {
+        int xmin = Integer.MAX_VALUE, ymin = Integer.MAX_VALUE, xmax = Integer.MIN_VALUE, ymax = Integer.MIN_VALUE;
+
+        for (ImagePOJO img : imageChunks) {
+            xmin = xmin < img.getXmin() ? xmin : img.getXmin();
+            ymin = ymin < img.getYmin() ? ymin : img.getYmin();
+            xmax = xmax > img.getXmax() ? xmax : img.getXmax();
+            ymax = ymax > img.getYmax() ? ymax : img.getYmax();
+        }
+        int[][] result = new int[2][2];
+        result[0][0] = xmin;
+        result[0][1] = ymin;
+        result[1][0] = xmax;
+        result[1][1] = ymax;
+
+        return result;
+
+    }
+    /**
+     * 
+     * @param image
+     * @param threshold1
+     * @param threshold2
+     * @return 
+     */
+    public static List<ImagePOJO> getCannyImages(BufferedImage image,float threshold1, float threshold2) {
         ImageFloat32 input = ConvertBufferedImage.convertFromSingle(image, null, ImageFloat32.class);
         // Finds edges inside the image
         CannyEdge<ImageFloat32, ImageFloat32> canny
                 = FactoryEdgeDetectors.canny(2, true, true, ImageFloat32.class, ImageFloat32.class);
 
-        canny.process(input, 0.1f, 0.3f, null);
+        canny.process(input,threshold1, threshold2, null);
         List<EdgeContour> contours = canny.getContours();
 
         List<ImagePOJO> result = new ArrayList<>();
@@ -354,6 +379,9 @@ public class FitPolygon {
 //        }
 
         double[][] pointsArrayD = new double[pointsArray.size()][2];
+        for(int i=0;i<pointsArrayD.length;i++){
+            pointsArrayD[i]=pointsArray.get(i);
+        }
         //create real matrix
         RealMatrix realMatrix = MatrixUtils.createRealMatrix(pointsArrayD);
 

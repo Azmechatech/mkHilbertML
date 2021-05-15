@@ -33,12 +33,12 @@ import boofcv.factory.feature.detect.template.TemplateScoreType;
 import boofcv.gui.image.ShowImages;
 import boofcv.gui.image.VisualizeImageData;
 import boofcv.io.UtilIO;
-import boofcv.io.image.ConvertBufferedImage;
+//import boofcv.io.image.ConvertBufferedImage;
 import boofcv.io.image.UtilImageIO;
 import boofcv.struct.feature.Match;
-import boofcv.struct.image.GrayF32;
+//import boofcv.struct.image.GrayF32;
 import boofcv.struct.image.ImageFloat32;
-import boofcv.struct.image.ImageGray;
+//import boofcv.struct.image.ImageGray;
 
 import java.awt.*;
 import java.awt.image.BufferedImage;
@@ -120,52 +120,52 @@ public class ExampleTemplateMatching {
 
         BufferedImage output = new BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_BGR);
         //VisualizeImageData.grayMagnitude(new ImageGray, output, -1);
-        ShowImages.showWindow(output, "Match Intensity", true);
+      //  ShowImages.showWindow(output, "Match Intensity", true);
     }
 
-    public static void main(String[] args) {
-        // Load image and templates
-        String directory = UtilIO.pathExample("template");
-
-        GrayF32 image = UtilImageIO.loadImage(directory, "desktop.png", GrayF32.class);
-        GrayF32 templateCursor = UtilImageIO.loadImage(directory, "cursor.png", GrayF32.class);
-        GrayF32 maskCursor = UtilImageIO.loadImage(directory, "cursor_mask.png", GrayF32.class);
-        GrayF32 templatePaint = UtilImageIO.loadImage(directory, "paint.png", GrayF32.class);
-
-        // create output image to show results
-        BufferedImage output = new BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_BGR);
-        ConvertBufferedImage.convertTo(image, output);
-        Graphics2D g2 = output.createGraphics();
-
-        BufferedImage outputtemplateCursor = new BufferedImage(templateCursor.width, templateCursor.height, BufferedImage.TYPE_INT_BGR);
-        ConvertBufferedImage.convertTo(templateCursor, outputtemplateCursor);
-
-        BufferedImage outputmaskCursor = new BufferedImage(maskCursor.width, maskCursor.height, BufferedImage.TYPE_INT_BGR);
-        ConvertBufferedImage.convertTo(maskCursor, outputmaskCursor);
-
-        // Search for the cursor in the image.  For demonstration purposes it has been pasted 3 times
-        g2.setColor(Color.RED);
-        g2.setStroke(new BasicStroke(5));
-
-        // show match intensity image for this template
-        ImageFloat32 input = boofcv.core.image.ConvertBufferedImage.convertFromSingle(output, null, ImageFloat32.class);
-        ImageFloat32 inputtemplateCursor = boofcv.core.image.ConvertBufferedImage.convertFromSingle(outputtemplateCursor, null, ImageFloat32.class);
-        ImageFloat32 inputmaskCursor = boofcv.core.image.ConvertBufferedImage.convertFromSingle(outputmaskCursor, null, ImageFloat32.class);
-
-        drawRectangles(g2, input, inputtemplateCursor, 3);
-
-        showMatchIntensity(input, inputtemplateCursor, inputmaskCursor);
-
-        // Now it's try finding the cursor without a mask.  it will get confused when the background is black
-        g2.setColor(Color.BLUE);
-        g2.setStroke(new BasicStroke(2));
-        drawRectangles(g2, input, inputtemplateCursor, 3);
-
-        // Now it searches for a specific icon for which there is only one match
-//		g2.setColor(Color.ORANGE); g2.setStroke(new BasicStroke(3));
-//		drawRectangles(g2, input, templatePaint, null, 1);
-        ShowImages.showWindow(output, "Found Matches", true);
-    }
+//    public static void main(String[] args) {
+//        // Load image and templates
+//        String directory = UtilIO.pathExample("template");
+//
+//        GrayF32 image = UtilImageIO.loadImage(directory, "desktop.png", GrayF32.class);
+//        GrayF32 templateCursor = UtilImageIO.loadImage(directory, "cursor.png", GrayF32.class);
+//        GrayF32 maskCursor = UtilImageIO.loadImage(directory, "cursor_mask.png", GrayF32.class);
+//        GrayF32 templatePaint = UtilImageIO.loadImage(directory, "paint.png", GrayF32.class);
+//
+//        // create output image to show results
+//        BufferedImage output = new BufferedImage(image.width, image.height, BufferedImage.TYPE_INT_BGR);
+//        ConvertBufferedImage.convertTo(image, output);
+//        Graphics2D g2 = output.createGraphics();
+//
+//        BufferedImage outputtemplateCursor = new BufferedImage(templateCursor.width, templateCursor.height, BufferedImage.TYPE_INT_BGR);
+//        ConvertBufferedImage.convertTo(templateCursor, outputtemplateCursor);
+//
+//        BufferedImage outputmaskCursor = new BufferedImage(maskCursor.width, maskCursor.height, BufferedImage.TYPE_INT_BGR);
+//        ConvertBufferedImage.convertTo(maskCursor, outputmaskCursor);
+//
+//        // Search for the cursor in the image.  For demonstration purposes it has been pasted 3 times
+//        g2.setColor(Color.RED);
+//        g2.setStroke(new BasicStroke(5));
+//
+//        // show match intensity image for this template
+//        ImageFloat32 input = boofcv.core.image.ConvertBufferedImage.convertFromSingle(output, null, ImageFloat32.class);
+//        ImageFloat32 inputtemplateCursor = boofcv.core.image.ConvertBufferedImage.convertFromSingle(outputtemplateCursor, null, ImageFloat32.class);
+//        ImageFloat32 inputmaskCursor = boofcv.core.image.ConvertBufferedImage.convertFromSingle(outputmaskCursor, null, ImageFloat32.class);
+//
+//        drawRectangles(g2, input, inputtemplateCursor, 3);
+//
+//        showMatchIntensity(input, inputtemplateCursor, inputmaskCursor);
+//
+//        // Now it's try finding the cursor without a mask.  it will get confused when the background is black
+//        g2.setColor(Color.BLUE);
+//        g2.setStroke(new BasicStroke(2));
+//        drawRectangles(g2, input, inputtemplateCursor, 3);
+//
+//        // Now it searches for a specific icon for which there is only one match
+////		g2.setColor(Color.ORANGE); g2.setStroke(new BasicStroke(3));
+////		drawRectangles(g2, input, templatePaint, null, 1);
+//        ShowImages.showWindow(output, "Found Matches", true);
+//    }
 
     /**
      * Helper function will is finds matches and displays the results as colored
